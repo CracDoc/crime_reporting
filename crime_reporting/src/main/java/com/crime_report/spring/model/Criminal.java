@@ -7,13 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name = "tbl_criminal")
 public class Criminal {
 	private Integer criminalId;
 	private String name;
-	private String photo;
 	private String crimesCommited;
 	private String casesPending;
 	private Integer wantedLevel;
@@ -21,6 +22,7 @@ public class Criminal {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "criminal_id")
 	public Integer getCriminalId() {
 		return criminalId;
 	}
@@ -28,30 +30,24 @@ public class Criminal {
 		this.criminalId = criminalId;
 	}
 	
-	@Column(length = 30)
+	@Column(length = 30, name = "criminal_name")
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	@OneToOne
-	@JoinColumn(name="Photos")
+	@JoinColumn(name = "ph_id")
 	public Photo getPh() {
 		return ph;
 	}
 	public void setPh(Photo ph) {
 		this.ph = ph;
 	}
-	@Column(length = 100)
-	public String getPhoto() {
-		return photo;
-	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
 	
-	@Column(length = 300)
+	@Column(length = 300, name = "crime_commited")
 	public String getCrimesCommited() {
 		return crimesCommited;
 	}
@@ -59,7 +55,7 @@ public class Criminal {
 		this.crimesCommited = crimesCommited;
 	}
 	
-	@Column(length = 300)
+	@Column(length = 300, name = "cases_pending")
 	public String getCasesPending() {
 		return casesPending;
 	}
@@ -67,17 +63,21 @@ public class Criminal {
 		this.casesPending = casesPending;
 	}
 	
+	@Column(name = "wanted_level")
 	public Integer getWantedLevel() {
 		return wantedLevel;
 	}
 	public void setWantedLevel(Integer wantedLevel) {
 		this.wantedLevel = wantedLevel;
 	}
+	
 	@Override
 	public String toString() {
-		return "Criminal [criminalId=" + criminalId + ", name=" + name + ", photo=" + photo + ", crimesCommited="
-				+ crimesCommited + ", casesPending=" + casesPending + ", wantedLevel=" + wantedLevel + "]";
+		return "Criminal [criminalId=" + criminalId + ", name=" + name + ", crimesCommited=" + crimesCommited
+				+ ", casesPending=" + casesPending + ", wantedLevel=" + wantedLevel + ", ph=" + ph + "]";
 	}
+	
+	
 	
 	
 }

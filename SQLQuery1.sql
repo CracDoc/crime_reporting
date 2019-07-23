@@ -101,3 +101,42 @@ FOREIGN KEY (ps_id) REFERENCES tbl_police_station(ps_id)
 );
 
 go
+
+/* Contains which reporter filed which complaint - one to many relationship */
+create table tbl_reporter_complaint_map(
+map_complaint_id int primary key identity(1,1),
+rp_id int NOT NULL,
+complaint_id int,
+FOREIGN KEY (rp_id) REFERENCES tbl_reporter(rp_id),
+FOREIGN KEY (complaint_id) REFERENCES tbl_complaint(complaint_id)
+);
+
+go
+
+/* Photos table for criminal photo upload */
+create table tbl_criminal_photos(
+p_file_id int primary key identity(1,1),
+p_file_name varchar(20),
+ph_id int unique,
+p_file_data varbinary(MAX),
+);
+
+go
+
+
+/* Criminal Information table for criminal registration */
+/* Only police can register criminal */ 
+create table tbl_criminal(
+criminal_id int primary key identity(1,1),
+criminal_name varchar(50),
+ph_id int,
+crime_commited varchar(300),
+cases_pending varchar(300),
+wanted_level int,
+FOREIGN KEY (ph_id) REFERENCES tbl_criminal_photos(ph_id)
+);
+
+go
+
+
+

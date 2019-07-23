@@ -16,7 +16,7 @@ public class Complaint {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "com_id",updatable = false , nullable = false)
-	private Integer complaintpaint_id;
+	private Integer complaint_id;
 	
 	@Column(name = "com_type",updatable = false , nullable = false,length = 20)
 	private String complaint_type;
@@ -29,10 +29,10 @@ public class Complaint {
 	
 	
 	public Integer getComplaintpaint_id() {
-		return complaintpaint_id;
+		return complaint_id;
 	}
 	public void setComplaintpaint_id(Integer complaintpaint_id) {
-		this.complaintpaint_id = complaintpaint_id;
+		this.complaint_id = complaintpaint_id;
 	}
 	public String getComplaint_type() {
 		return complaint_type;
@@ -62,7 +62,7 @@ public class Complaint {
 	
 	@Override
 	public String toString() {
-		return "Complaint [complaintpaint_id=" + complaintpaint_id + ", complaint_type=" + complaint_type
+		return "Complaint [complaintpaint_id=" + complaint_id + ", complaint_type=" + complaint_type
 				+ ", complaint_status=" + complaint_status + ", complaint_desc=" + complaint_desc + ", location="
 				+ location + "]";
 	}

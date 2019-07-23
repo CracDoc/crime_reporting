@@ -3,18 +3,18 @@ package com.crime_report.spring.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "tbl_criminal_photos")
 public class Photo {
 	
 	    private long id;
 	    private String fileName;
 	    private byte[] data;
-	    private Criminal crm;
+	    private Criminal ph_id;
 	 
-
 
 		@Id
 	    @GeneratedValue
-	    @Column(name = "FILE_ID")
+	    @Column(name = "p_file_id")
 	    public long getId() {
 	        return id;
 	    }
@@ -23,7 +23,7 @@ public class Photo {
 	        this.id = id;
 	    }
 	 
-	    @Column(name = "FILE_NAME")
+	    @Column(name = "p_file_name", length = 20)
 	    public String getFileName() {
 	        return fileName;
 	    }
@@ -31,21 +31,22 @@ public class Photo {
 	    public void setFileName(String fileName) {
 	        this.fileName = fileName;
 	    }
-	    @OneToOne(cascade = CascadeType.ALL, mappedBy = "ph")
-	    public Criminal getCrm() {
-			return crm;
-		}
-
-		public void setCrm(Criminal crm) {
-			this.crm = crm;
-		}
-	 
-	    @Column(name = "FILE_DATA")
+	    
+	    @Column(name = "p_file_data")
 	    public byte[] getData() {
 	        return data;
 	    }
 	 
-	    public void setData(byte[] data) {
+	    @OneToOne(cascade = CascadeType.ALL, mappedBy = "ph_id")
+	    public Criminal getPh_id() {
+			return ph_id;
+		}
+
+		public void setPh_id(Criminal ph_id) {
+			this.ph_id = ph_id;
+		}
+
+		public void setData(byte[] data) {
 	        this.data = data;
 	    }
 

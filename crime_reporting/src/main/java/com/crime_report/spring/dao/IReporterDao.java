@@ -16,8 +16,6 @@ public interface IReporterDao {
 
 	//Reporter getAuthenticateReporter();
 
-	
-	
 	String complaintStatus(Complaint complaint_id);
 
 	List<Complaint> getReporterComplaint(String reporter_id);

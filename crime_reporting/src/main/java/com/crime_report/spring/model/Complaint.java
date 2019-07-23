@@ -28,11 +28,11 @@ public class Complaint {
 	private String location;
 	
 	
-	public Integer getComplaintpaint_id() {
+	public Integer getComplaint_id() {
 		return complaint_id;
 	}
-	public void setComplaintpaint_id(Integer complaintpaint_id) {
-		this.complaint_id = complaintpaint_id;
+	public void setComplaint_id(Integer complaint_id) {
+		this.complaint_id = complaint_id;
 	}
 	public String getComplaint_type() {
 		return complaint_type;
@@ -62,7 +62,7 @@ public class Complaint {
 	
 	@Override
 	public String toString() {
-		return "Complaint [complaintpaint_id=" + complaint_id + ", complaint_type=" + complaint_type
+		return "Complaint [complaint_id=" + complaint_id + ", complaint_type=" + complaint_type
 				+ ", complaint_status=" + complaint_status + ", complaint_desc=" + complaint_desc + ", location="
 				+ location + "]";
 	}

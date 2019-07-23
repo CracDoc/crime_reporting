@@ -138,5 +138,15 @@ FOREIGN KEY (ph_id) REFERENCES tbl_criminal_photos(ph_id)
 
 go
 
+/* Complaint criminal mapping */
+/* Accessed by police only */
+create table tbl_complaint_criminal_map(
+map_comp_criminal_id int primary key identity(1,1),
+criminal_id int,
+complaint_id int,
+FOREIGN KEY (criminal_id) REFERENCES tbl_criminal(criminal_id),
+FOREIGN KEY (complaint_id) REFERENCES tbl_complaint(complaint_id)
+);
 
+go
 

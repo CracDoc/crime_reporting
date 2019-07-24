@@ -1,14 +1,19 @@
 package com.crime_report.spring.dao;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Query;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.crime_report.spring.model.AddressReporter;
 import com.crime_report.spring.model.Complaint;
 import com.crime_report.spring.model.Reporter;
-
+@CrossOrigin
 @Repository
 public class ReporterDaoImpl implements IReporterDao {
 
@@ -16,13 +21,13 @@ public class ReporterDaoImpl implements IReporterDao {
 	private SessionFactory session;
 	
 	@Override
-	public Reporter getLoginReporter(Integer username, String password) {
+	public Reporter getLoginReporter(Integer username, Date password) {
 		
-		session.getCurrentSession().createQuery("select repo from Reporter where repo.repo_aadhar_no:username and repo.D_O_B :password",Reporter.class )
+		return session.getCurrentSession().createQuery("select repo from Reporter where repo.repo_aadhar_no:username and repo.D_O_B :password",Reporter.class )
 		.setParameter("username", username)
 		.setParameter("password",password)
 		.getSingleResult();
-		return null;
+	
 	}
 
 	@Override
@@ -36,23 +41,38 @@ public class ReporterDaoImpl implements IReporterDao {
 	public String registerComplaint(Complaint complaint_raise) {
 		
 		session.getCurrentSession().save(complaint_raise);
-		return null;
+		return "Complaint Register Succesfully";
 	}
 
 	@Override
 	public List<Complaint> getReporterComplaint(String repo_aadhar_no) {
 		
-		session.getCurrentSession().createQuery("select comp from Complaint where comp.repo_aadhar_no: complaint",Reporter.class)
+		List<Complaint> list = (List<Complaint>) session.getCurrentSession().createStoredProcedureCall("procedureName");
+				/*.createQuery("select comp from Complaint where comp.repo_aadhar_no: complaint",Complaint.class)
 		.setParameter("repo_aadhar_no", repo_aadhar_no)
 		.getResultList();
-		return null;
+	*/	return list;
 	}
 
 	@Override
-	public String complaintStatus(Complaint complaint_id) {
-		session.getCurrentSession().createQuery("select complaint_status from Complaint where com.complaint_id: stat",Complaint.class)
-		.setParameter("stat", complaint_id);
-		return null;
+	public Complaint complaintStatus(Integer complaint_id) {
+		 return  session.getCurrentSession().createQuery("select complaint_status from Complaint where com.complaint_id: stat",Complaint.class)
+		.setParameter("stat", complaint_id)
+		.getSingleResult();
+	
+	}
+
+	@Override
+	public Integer changeAddress(String flat_no, String street, String landmark, String city, Integer pincode, Integer address_id) {
+		 Query q = session.getCurrentSession().createQuery("update AddressReporter a SET a.falt_no = :flat_no and a.street:street and a.landmark:landmark and a.city:city and a.pincode:pincode WHERE a.address_id:address_id",AddressReporter.class)
+				.setParameter("flat_no", flat_no)
+				.setParameter("street", street)
+				.setParameter("landmark", landmark)
+				.setParameter("city", city)
+				.setParameter("pincode", pincode);
+		return q.executeUpdate();
+			
+		
 	}
 
 

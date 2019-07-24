@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 
 
@@ -20,6 +22,8 @@ public class PoliceStation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ps_id",nullable = false, updatable = false)
+	@GenericGenerator(name = "ps_id", strategy = "foreign", parameters = {
+			@Parameter(name = "ps_property", value = "ps_id") })
 	private Integer ps_id;
 	@Column(name = "police_station",nullable = false,length = 30)
 	private String police_station;
@@ -28,7 +32,9 @@ public class PoliceStation {
 	@Cascade(value = CascadeType.ALL)
 	private AddressPoliceStation ps_addr_id;
 	
-	
+	public PoliceStation() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	public Integer getPs_id() {

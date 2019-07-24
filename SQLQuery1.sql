@@ -150,3 +150,26 @@ FOREIGN KEY (complaint_id) REFERENCES tbl_complaint(complaint_id)
 
 go
 
+
+
+drop getAllCriminal
+/*For getting all Criminal */
+create proc getAllCriminal
+as
+begin
+
+select * from tbl_criminal
+
+end
+
+
+create proc getAllComplaint
+as 
+
+begin
+select * from tbl_complaint
+end
+
+
+
+

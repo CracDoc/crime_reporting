@@ -18,11 +18,10 @@ public class ReporterDaoImpl implements IReporterDao {
 	@Override
 	public Reporter getLoginReporter(Integer username, String password) {
 		
-		session.getCurrentSession().createQuery("select repo from Reporter where repo.repo_aadhar_no:username and repo.D_O_B :password",Reporter.class )
+		return session.getCurrentSession().createQuery("select repo from Reporter where repo.repo_aadhar_no:username and repo.D_O_B :password",Reporter.class )
 		.setParameter("username", username)
 		.setParameter("password",password)
 		.getSingleResult();
-		return null;
 	}
 
 	@Override

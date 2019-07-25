@@ -152,8 +152,9 @@ go
 
 
 
-drop getAllCriminal
-/*For getting all Criminal */
+
+/* For getting all Criminal 
+	only for police station */
 create proc getAllCriminal
 as
 begin
@@ -162,14 +163,26 @@ select * from tbl_criminal
 
 end
 
+go
+
+
+alter table tbl_complaint
+add pincode int not null;
+
+go
+
+
+/* For getting all complaints
+	for reporter and police */
+/* drop proc getAllComplaint
+go */
 
 create proc getAllComplaint
+@pincode int
 as 
-
 begin
-select * from tbl_complaint
+select * from tbl_complaint where pincode=@pincode
 end
 
-
-
+go
 

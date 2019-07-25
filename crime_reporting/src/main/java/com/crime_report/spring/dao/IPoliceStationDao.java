@@ -1,13 +1,11 @@
-/**
- * 
- */
+
 package com.crime_report.spring.dao;
 
 import java.util.List;
 
+import com.crime_report.spring.model.Admin;
 import com.crime_report.spring.model.Complaint;
 import com.crime_report.spring.model.Criminal;
-import com.crime_report.spring.model.PoliceStation;
 
 /**
  * @author SCRAT
@@ -16,25 +14,21 @@ import com.crime_report.spring.model.PoliceStation;
 public interface IPoliceStationDao {
 	
 	//1
-	PoliceStation getAuthenticateAdmin(Integer ps_id, String username, String password);
+	Admin getAuthenticateAdmin(Integer ps_id, String username, String password);
 	
 	//2
-	boolean addCriminal(Criminal criminal);
+	String addCriminal(Criminal criminal);
 	
-	//List<PoliceStation> getAllPoliceStation();
+	List<Complaint> getAllComplaints(String pincode);
 	
 	//3
 	Complaint viewComplaint(Integer Complaint_id);
 		
 	//4
-	String changeComplaintStatus(Integer complaint_id);
+	Integer changeComplaintStatus(Integer complaint_id, String status);
 	
 	//5
-	boolean criminalAssignToComplaint();
-	
-	
-	
-	
+	boolean criminalAssignToComplaint(Integer complaint_id, Integer criminal_id);
 	
 	
 	

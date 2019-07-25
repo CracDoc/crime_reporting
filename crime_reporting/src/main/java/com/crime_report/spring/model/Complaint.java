@@ -26,6 +26,8 @@ public class Complaint {
 	private String complaint_desc;
 	@Column(name = "location",updatable = false , nullable = false,length = 50)
 	private String location;
+	@Column(name = "pincode",nullable = false, length = 6)
+	private String pincode;
 	
 	
 	public Integer getComplaint_id() {
@@ -59,13 +61,20 @@ public class Complaint {
 		this.location = location;
 	}
 	
+	public String getPincode() {
+		return pincode;
+	}
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
 	
 	@Override
 	public String toString() {
-		return "Complaint [complaint_id=" + complaint_id + ", complaint_type=" + complaint_type
-				+ ", complaint_status=" + complaint_status + ", complaint_desc=" + complaint_desc + ", location="
-				+ location + "]";
+		return "Complaint [complaint_id=" + complaint_id + ", complaint_type=" + complaint_type + ", complaint_status="
+				+ complaint_status + ", complaint_desc=" + complaint_desc + ", location=" + location + ", pincode="
+				+ pincode + "]";
 	}
+	
 	
 	
 	

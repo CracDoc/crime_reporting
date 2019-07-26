@@ -5,12 +5,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 @Entity
+
+@NamedStoredProcedureQuery(
+		name = "changeReporterContact",
+		procedureName = "changeReporterContact",
+		parameters = {
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "rp_id"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "primary_no"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "secondary_no"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "land_line")
+				}
+		)
+
 @Table(name="tbl_contact_reporter")
 public class ContactReporter {
 
@@ -18,7 +31,6 @@ public class ContactReporter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "contact_id",updatable = false,nullable = false,unique = true)
-	@GenericGenerator(name = "gen", strategy = "foreign", parameters = { @Parameter(name="property",value = "reporter")})
 	private long contact_id;
 	@Column(nullable = false)
 	private long primary_no;
@@ -26,7 +38,8 @@ public class ContactReporter {
 	private long secondary_no;
 	@Column(name = "land_line")
 	private long land_line ;
-	
+	@OneToOne(mappedBy = "contact")
+    private Reporter reporter;
 
 	
 	//Getter and Setter 
@@ -55,12 +68,17 @@ public class ContactReporter {
 		this.land_line = land_line;
 	}
 	
+	public Reporter getReporter() {
+		return reporter;
+	}
+	public void setReporter(Reporter reporter) {
+		this.reporter = reporter;
+	}
 	
-	//toString method
 	@Override
 	public String toString() {
 		return "ContactReporter [contact_id=" + contact_id + ", primary_no=" + primary_no + ", secondary_no="
-				+ secondary_no + ", land_line=" + land_line + "]";
+				+ secondary_no + ", land_line=" + land_line + ", reporter=" + reporter + "]";
 	}
 	
 	

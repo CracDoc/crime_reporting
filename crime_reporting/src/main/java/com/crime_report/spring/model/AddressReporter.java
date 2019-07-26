@@ -5,22 +5,34 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 @Entity
+
+@NamedStoredProcedureQuery(
+		name = "changeReporterAddress",
+		procedureName = "changeReporterAddress",
+		parameters = {
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "rp_id"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "flat_no"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "street"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "landmark"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "city"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "pincode")
+				}
+		)
+
 @Table(name = "tbl_address_reporter")
 public class AddressReporter {
 
-	// Table column
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "addr_id", updatable = false, nullable = false, unique = true)
-	@GenericGenerator(name = "gen", strategy = "foreign", parameters = {
-			@Parameter(name = "property", value = "reporter") })
+	@Column(name = "addr_id", updatable = false, nullable = false, unique = true)	
 	private Integer address_id;
 	@Column(name = "flat_no")
 	private String flat_no;
@@ -32,6 +44,8 @@ public class AddressReporter {
 	private String city;
 	@Column(name = "pincode")
 	private Integer pincode;
+	@OneToOne(mappedBy = "address")
+    private Reporter reporter;
 
 	// Getter and Setter method
 
@@ -83,11 +97,21 @@ public class AddressReporter {
 		this.pincode = pincode;
 	}
 
-	// Tostring Method
+	
+	public Reporter getReporter() {
+		return reporter;
+	}
+
+	public void setReporter(Reporter reporter) {
+		this.reporter = reporter;
+	}
+
 	@Override
 	public String toString() {
 		return "AddressReporter [address_id=" + address_id + ", flat_no=" + flat_no + ", street=" + street
-				+ ", landmark=" + landmark + ", city=" + city + ", pincode=" + pincode + "]";
+				+ ", landmark=" + landmark + ", city=" + city + ", pincode=" + pincode + ", reporter=" + reporter + "]";
 	}
+
+	
 
 }

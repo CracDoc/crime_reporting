@@ -1,17 +1,47 @@
 package com.crime_report.spring.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
+
+@NamedStoredProcedureQueries({
+	  @NamedStoredProcedureQuery(
+	    name="registerPoliceStation",
+	    procedureName="registerPoliceStation",
+	    		parameters = {
+  				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "police_station_name"),
+	    				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "flat_no"),
+	    				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "street"),
+	    				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "landmark"),
+	    				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "city"),
+	    				@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "pincode"),
+	    				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "username"),
+	    				@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "password")
+	    		}
+	    ),
+	    @NamedStoredProcedureQuery(
+	      name="changeCredentials",
+	      procedureName="changeCredentials",
+	    		  parameters = {
+	    					@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "ps_id"),
+	    					@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "username"),
+	    					@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "password")
+	    			})
+} )
+
+
 @Table(name = "tbl_admin")
 public class Admin {
 
@@ -26,10 +56,10 @@ public class Admin {
 	@Column(name = "password",nullable = false,length = 20)
 	private String password;
 	
-	@Column(name = "ps_id")
-	@OneToOne(mappedBy = "ps_id")
-	@Cascade(value = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FK_ps")
 	private PoliceStation ps_id;
+	
 
 	public Admin() {
 		// TODO Auto-generated constructor stub

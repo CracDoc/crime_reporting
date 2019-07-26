@@ -1,29 +1,30 @@
 package com.crime_report.spring.model;
 
+import java.util.Arrays;
+
 import javax.persistence.*;
 
 @Entity
 public class Photo {
 	
-	    private long id;
+	    private long ph_id;
 	    private String fileName;
 	    private byte[] data;
-	    private Criminal crm;
-	 
+	    private Criminal criminal;
 
 
 		@Id
 	    @GeneratedValue
-	    @Column(name = "FILE_ID")
+	    @Column(name = "ph_id")
 	    public long getId() {
-	        return id;
+	        return ph_id;
 	    }
 	 
 	    public void setId(long id) {
-	        this.id = id;
+	        this.ph_id = id;
 	    }
 	 
-	    @Column(name = "FILE_NAME")
+	    @Column(name = "p_file_name")
 	    public String getFileName() {
 	        return fileName;
 	    }
@@ -31,16 +32,8 @@ public class Photo {
 	    public void setFileName(String fileName) {
 	        this.fileName = fileName;
 	    }
-	    @OneToOne(cascade = CascadeType.ALL, mappedBy = "ph")
-	    public Criminal getCrm() {
-			return crm;
-		}
-
-		public void setCrm(Criminal crm) {
-			this.crm = crm;
-		}
 	 
-	    @Column(name = "FILE_DATA")
+	    @Column(name = "p_file_data")
 	    public byte[] getData() {
 	        return data;
 	    }
@@ -48,5 +41,21 @@ public class Photo {
 	    public void setData(byte[] data) {
 	        this.data = data;
 	    }
+
+	    @OneToOne(mappedBy = "ph")
+		public Criminal getCriminal() {
+			return criminal;
+		}
+
+		public void setCriminal(Criminal criminal) {
+			this.criminal = criminal;
+		}
+
+		@Override
+		public String toString() {
+			return "Photo [ph_id=" + ph_id + ", fileName=" + fileName + ", data=" + Arrays.toString(data) + "]";
+		}
+	    
+	    
 
 }

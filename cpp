@@ -52,7 +52,7 @@ main()
         {
         case 1:
             cout<<"Inserting Node :"<<endl;
-            sl.insert_begin();
+            sl.insert();
             cout<<endl;
             break;
         case 2:

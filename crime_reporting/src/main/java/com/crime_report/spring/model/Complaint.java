@@ -63,7 +63,7 @@ public class Complaint {
 	@Column(name = "location",updatable = false , nullable = false,length = 50)
 	private String location;
 	@Column(name = "pincode",nullable = false, length = 6)
-	private String pincode;
+	private Integer pincode;
 	
 	@ManyToOne
 	@JoinColumn(name="FK_reporter")
@@ -119,10 +119,10 @@ public class Complaint {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getPincode() {
+	public Integer getPincode() {
 		return pincode;
 	}
-	public void setPincode(String pincode) {
+	public void setPincode(Integer pincode) {
 		this.pincode = pincode;
 	}
 	

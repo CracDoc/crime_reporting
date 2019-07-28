@@ -52,7 +52,7 @@ public class Reporter {
 	private String reporter_name;
 	
 	@Column(name = "repo_aadhar_no", updatable = true, nullable = false,length = 12)
-	private Integer repo_aadhar_no;
+	private String repo_aadhar_no;
 	
 	@Column(name = "date_of_birth",nullable = false)
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -87,11 +87,11 @@ public class Reporter {
 		this.reporter_name = reporter_name;
 	}
 
-	public Integer getRepo_aadhar_no() {
+	public String getRepo_aadhar_no() {
 		return repo_aadhar_no;
 	}
 
-	public void setRepo_aadhar_no(Integer repo_aadhar_no) {
+	public void setRepo_aadhar_no(String repo_aadhar_no) {
 		this.repo_aadhar_no = repo_aadhar_no;
 	}
 

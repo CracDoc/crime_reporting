@@ -78,9 +78,10 @@ public class ReporterDaoImpl implements IReporterDao {
 	}
 
 	@Override
-	public Complaint complaintStatus(Integer complaint_id) {
-		 return this.session.getCurrentSession().createQuery("select comp from Complaint comp where comp.complaint_id: complaint_id",Complaint.class)
+	public Complaint complaintStatus(Integer rp_id,Integer complaint_id) {
+		 return this.session.getCurrentSession().createQuery("select comp from Complaint comp where comp.complaint_id: complaint_id and comp.rp_id:rp_id",Complaint.class)
 		.setParameter("complaint_id", complaint_id)
+		.setParameter("rp_id", rp_id)
 		.getSingleResult();
 	
 	}

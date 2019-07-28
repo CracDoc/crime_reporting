@@ -19,7 +19,7 @@ public interface IReporterDao {
 	
 	boolean changeContact(Integer rp_id, String primary_no, String secondary_no, String land_line);
 	
-	Complaint complaintStatus(Integer complaint_id);
+	Complaint complaintStatus(Integer rp_id, Integer complaint_id);
 
 	List<Complaint> getAllReporterComplaint(Integer rp_id);
 	

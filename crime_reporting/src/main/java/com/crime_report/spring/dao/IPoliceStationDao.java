@@ -17,7 +17,7 @@ public interface IPoliceStationDao {
 	Admin getAuthenticateAdmin(Integer ps_id, String username, String password);
 	
 	//2
-	boolean addCriminal(String criminal_name, Date date_of_birth, String crime_commited, String cases_pending, Integer wanted_level, String p_file_name, Byte p_file_data );
+	boolean addCriminal(String criminal_name, Date date_of_birth, String crime_commited, String cases_pending, Integer wanted_level, String p_file_name, byte[] p_file_data );
 	
 	//3
 	List<Complaint> getAllComplaints(String pincode);

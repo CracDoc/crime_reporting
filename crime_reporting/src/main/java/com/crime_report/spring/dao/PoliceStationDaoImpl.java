@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.crime_report.spring.model.Admin;
 import com.crime_report.spring.model.Complaint;
 
-public class PoliceStationImpl implements IPoliceStationDao {
+public class PoliceStationDaoImpl implements IPoliceStationDao {
 
 	@Autowired
 	private SessionFactory session;
@@ -31,7 +31,7 @@ public class PoliceStationImpl implements IPoliceStationDao {
 	}
 
 	@Override
-	public boolean addCriminal(String criminal_name, Date date_of_birth, String crime_commited, String cases_pending, Integer wanted_level, String p_file_name, Byte p_file_data ) {
+	public boolean addCriminal(String criminal_name, Date date_of_birth, String crime_commited, String cases_pending, Integer wanted_level, String p_file_name, byte[] p_file_data ) {
 		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("registerCriminal");
 		query.setParameter(1, criminal_name);
 		query.setParameter(2, date_of_birth);

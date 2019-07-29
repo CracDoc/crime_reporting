@@ -21,6 +21,8 @@ import com.crime_report.spring.model.AddressReporter;
 import com.crime_report.spring.model.Complaint;
 import com.crime_report.spring.model.ContactReporter;
 import com.crime_report.spring.model.Reporter;
+import com.crime_reporting.spring.exception.AdminException;
+import com.crime_reporting.spring.exception.ReporterException;
 import com.crime_reporting.spring.service.ReporterService;
 
 @RestController
@@ -39,7 +41,7 @@ public class ReporterController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> getLogin(Integer username, Date password) {
+	public ResponseEntity<?> getLogin(Integer username, Date password) throws ReporterException {
 		System.out.println("in reporter login");
 		try {
 			HttpSession hs = req.getSession();
@@ -51,7 +53,7 @@ public class ReporterController {
 				System.out.println(hs.getAttribute("reporter"));
 			}
 			else {
-				System.out.println(hs.getAttribute("reporter"));
+				throw new ReporterException("Could not login, please try again");
 			}
 			return new ResponseEntity<Reporter>(reporter, HttpStatus.OK);
 		}
@@ -60,78 +62,125 @@ public class ReporterController {
 		}
 		
 	}
-	/*
-	@PostMapping("/register")
+	
+	@PostMapping("/registerReporter")
 	public ResponseEntity<?> registerReporter(@RequestBody Reporter reporter,@RequestBody AddressReporter addrReporter,@RequestBody ContactReporter contactReporter) {
 		System.out.println("in reporter register");
 		try {
-			reporter = reporterService.registerReporter(reporter, addrReporter, contactReporter);
-			return new ResponseEntity<Reporter>(reporter,HttpStatus.OK);
+			boolean stat = reporterService.registerReporter(reporter, addrReporter, contactReporter);
+			if(stat)
+				return new ResponseEntity<Reporter>(HttpStatus.OK);
+			else 
+				throw new ReporterException("Reporter registration failed, please try again");
 		}
 		catch (Exception e) {
-			// TODO: handle exception
+			return new ResponseEntity<String>("Reporter registration failed due to some reason. Please try again.",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}	
-	*/
-	@GetMapping("/")
-	public boolean registerComplaint(Complaint complaint, Integer rp_id, Integer ps_id) {
+
+	@PostMapping("/registerComplaint")
+	public ResponseEntity<?> registerComplaint(@RequestBody Complaint complaint, @RequestBody Reporter reporter, @RequestBody Integer ps_id) {
 		System.out.println("in reporter : crime register");
-		boolean stat = reporterService.registerComplaint(complaint, rp_id, ps_id);
-		if(stat)
-		{
-			System.out.println("Registration of complaint successfull");
-			return true;
+		try {
+			boolean stat = reporterService.registerComplaint(complaint, reporter);
+			if(stat)
+				return new ResponseEntity<Complaint>(HttpStatus.OK);
+			else 
+				throw new ReporterException("Complaint registration failed, please try again");
 		}
-		else
-		{
-			System.out.println("Registration of complaint failed");
-			return false;
+		catch (Exception e) {
+			return new ResponseEntity<String>("Complaint registration failed due to some reason. Please try again.",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@GetMapping("/")
-	public boolean changeAddress(Integer rp_id, AddressReporter addrReporter) {
+	@PostMapping("/changeAddress")
+	public ResponseEntity<?> changeAddress(@RequestBody Reporter reporter, @RequestBody AddressReporter addrReporter) throws ReporterException {
 		System.out.println("in reporter : change addr");
-		boolean stat = reporterService.changeAddress(rp_id, addrReporter);
-				if(stat)
-				{
-					System.out.println("addr change successfull");
-					return true;
-				}
-				else
-				{
-					System.out.println("addr change failed");
-					return false;
-				}
+		try {
+			HttpSession hs = req.getSession();
+			Reporter r = reporterService.changeAddress(reporter, addrReporter);
+			if(r != null)
+			{
+				hs.setAttribute("reporter", reporter);
+				System.out.println(hs.getAttribute("reporter"));
+			}
+			else {
+				System.out.println(hs.getAttribute("reporter"));
+				throw new ReporterException("Could not change address, please try again");
+			}
+			return new ResponseEntity<Reporter>(r, HttpStatus.OK);
+		}
+		catch (NoResultException e) {
+			return new ResponseEntity<String>("Changing address failed due to some reason. Please try again.", HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
-	@GetMapping("/")
-	public boolean changeContact(Integer rp_id, ContactReporter contactReporter) {
+	@PostMapping("/changeContact")
+	public ResponseEntity<?> changeContact(Reporter reporter, ContactReporter contactReporter) throws ReporterException {
 		System.out.println("in reporter : change contact");
-		boolean stat = reporterService.changeContact(rp_id, contactReporter);
-				if(stat)
-				{
-					System.out.println("contact change successfull");
-					return true;
-				}
-				else
-				{
-					System.out.println("contact change failed");
-					return false;
-				}
+		try {
+			HttpSession hs = req.getSession();
+			Reporter r = reporterService.changeContact(reporter, contactReporter);
+			if(r != null)
+			{
+				hs.setAttribute("reporter", reporter);
+				System.out.println(hs.getAttribute("reporter"));
+			}
+			else {
+				System.out.println(hs.getAttribute("reporter"));
+				throw new ReporterException("Could not change contact, please try again");
+			}
+			return new ResponseEntity<Reporter>(r, HttpStatus.OK);
+		}
+		catch (NoResultException e) {
+			return new ResponseEntity<String>("Changing contact failed due to some reason. Please try again.", HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
-	@GetMapping("/")
-	public Complaint complaintStatus(Integer rp_id, Integer complaint_id) {
+	@GetMapping("/viewComplaintStatus")
+	public ResponseEntity<?> complaintStatus(Reporter reporter, Complaint complaint) throws ReporterException {
 		System.out.println("in reporter : complaint status");
-		return reporterService.complaintStatus(rp_id, complaint_id);
+		try {
+			HttpSession hs = req.getSession();
+			Complaint c = reporterService.complaintStatus(reporter, complaint);
+			if(c != null)
+			{
+				hs.setAttribute("reporter", reporter);
+				System.out.println(hs.getAttribute("reporter"));
+			}
+			else {
+				System.out.println(hs.getAttribute("reporter"));
+				throw new ReporterException("Could not get complaint status, please try again");
+			}
+			return new ResponseEntity<Complaint>(c, HttpStatus.OK); 
+		}
+		catch (NoResultException e) {
+			return new ResponseEntity<String>("Something went wrong. Please try again.", HttpStatus.NOT_FOUND);
+		}
 	}
 	
-	@GetMapping("/")
-	public List<Complaint> getAllReporterComplaint(Integer rp_id) {
+	@GetMapping("/getAllComplaints")
+	public ResponseEntity<?> getAllReporterComplaint(Reporter reporter) throws ReporterException {
 		System.out.println("in reporter : all reporter complaints");
-		List<Complaint> list = reporterService.getAllReporterComplaint(rp_id);
-		return list;
+		try {
+			HttpSession hs = req.getSession();
+			List<Complaint> list = reporterService.getAllReporterComplaint(reporter);
+			if(list != null)
+			{
+				hs.setAttribute("reporter", reporter);
+				System.out.println(hs.getAttribute("reporter"));
+			}
+			else {
+				System.out.println(hs.getAttribute("reporter"));
+				throw new ReporterException("Could not get registered complaints, please try again");
+			}
+			return new ResponseEntity<List>(list, HttpStatus.OK); 
+		}
+		catch (NoResultException e) {
+			return new ResponseEntity<String>("Something went wrong. Please try again.", HttpStatus.NOT_FOUND);
+		}
 	}
 
 

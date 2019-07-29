@@ -11,6 +11,7 @@ import com.crime_report.spring.model.Admin;
 import com.crime_report.spring.model.Complaint;
 import com.crime_report.spring.model.Criminal;
 import com.crime_report.spring.model.Photo;
+import com.crime_report.spring.model.PoliceStation;
 
 
 @Service
@@ -20,8 +21,8 @@ public class PoliceStationService implements IPoliceStationService {
 	private PoliceStationDaoImpl policestation;
 
 	@Override
-	public Admin getAuthenticateAdmin(Integer ps_id, String username, String password) {
-		return policestation.getAuthenticateAdmin(ps_id, username, password);
+	public PoliceStation getAuthenticateAdmin(String username, String password) {
+		return policestation.getAuthenticateAdmin(username, password);
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class PoliceStationService implements IPoliceStationService {
 	}
 
 	@Override
-	public List<Complaint> getAllComplaints(String pincode) {
+	public List<Complaint> getAllComplaints(Integer pincode) {
 		List<Complaint> list = policestation.getAllComplaints(pincode);
 		return list;
 	}

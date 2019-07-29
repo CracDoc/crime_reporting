@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.crime_report.spring.model.Admin;
 import com.crime_report.spring.model.Complaint;
 import com.crime_report.spring.model.Criminal;
 import com.crime_report.spring.model.PoliceStation;
@@ -26,9 +27,19 @@ public class AdminDaoImpl implements IAdminDao {
 	@Autowired
 	private EntityManager em;
 
+
+	@Override
+	public Admin loginAdmin(String username, String password) {
+		return session.getCurrentSession().createQuery("select admin from Admin admin where admin.username:username and admin.password:password",Admin.class )
+				.setParameter("username", username)
+				.setParameter("password",password)
+				.getSingleResult();
+	}
+	
+	
 	@Override
 	public boolean addPoliceStation(String police_station_name,String flat_no,String street,String landmark,String city,Integer pincode,String username,String password) {
-		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("registerReporter");
+		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("registerPoliceStation");
 		query.setParameter(1, police_station_name);
 		query.setParameter(2, flat_no);
 		query.setParameter(3, street);
@@ -43,11 +54,10 @@ public class AdminDaoImpl implements IAdminDao {
 	}
 
 	@Override
-	public boolean changeCredentials(Integer ps_id, String username, String password) {
+	public boolean changeCredentials(String username, String password) {
 		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("changeCredentials");
-		query.setParameter(1, ps_id);
-		query.setParameter(2, username);
-		query.setParameter(3, password);
+		query.setParameter(1, username);
+		query.setParameter(2, password);
 		if(query.execute())
 			return true;
 		return false;
@@ -81,5 +91,6 @@ public class AdminDaoImpl implements IAdminDao {
 				.getResultList();
 		return list;
 	}
+
 
 }

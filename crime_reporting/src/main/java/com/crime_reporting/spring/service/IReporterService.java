@@ -14,15 +14,15 @@ public interface IReporterService {
 		
 		boolean registerReporter(Reporter reporter, AddressReporter addrReporter, ContactReporter contactReporter);
 		
-		boolean registerComplaint(Complaint complaint, Integer rp_id, Integer ps_id);
+		boolean registerComplaint(Complaint complaint, Reporter reporter);
 
-		boolean changeAddress(Integer rp_id, AddressReporter addrReporter);
+		Reporter changeAddress(Reporter reporter, AddressReporter addrReporter);
 		
-		boolean changeContact(Integer rp_id, ContactReporter contactReporter);
+		Reporter changeContact(Reporter reporter, ContactReporter contactReporter);
 		
-		Complaint complaintStatus(Integer rp_id, Integer complaint_id);
+		Complaint complaintStatus(Reporter reporter, Complaint complaint);
 
-		List<Complaint> getAllReporterComplaint(Integer rp_id);
+		List<Complaint> getAllReporterComplaint(Reporter reporter);
 		
 
 }

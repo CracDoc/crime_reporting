@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.crime_report.spring.model.Admin;
 import com.crime_report.spring.model.Complaint;
+import com.crime_report.spring.model.PoliceStation;
 
 public class PoliceStationDaoImpl implements IPoliceStationDao {
 
@@ -21,11 +22,10 @@ public class PoliceStationDaoImpl implements IPoliceStationDao {
 	private EntityManager em;
 	
 	@Override
-	public Admin getAuthenticateAdmin(Integer ps_id, String username, String password) {
-		return session.getCurrentSession().createQuery("select admin from Admin admin where admin.username:username and admin.password:password and admin.ps_id:ps_id",Admin.class )
+	public PoliceStation getAuthenticateAdmin(String username, String password) {
+		return session.getCurrentSession().createQuery("select police from PoliceStation police where police.username:username and police.password:password",PoliceStation.class )
 				.setParameter("username", username)
 				.setParameter("password",password)
-				.setParameter("ps_id",ps_id)
 				.getSingleResult();
 		
 	}
@@ -75,7 +75,7 @@ public class PoliceStationDaoImpl implements IPoliceStationDao {
 	}
 
 	@Override
-	public List<Complaint> getAllComplaints(String pincode) {
+	public List<Complaint> getAllComplaints(Integer pincode) {
 		List<Complaint> list = session.getCurrentSession().createQuery("select comp from Complaint comp where comp.pincode:pincode",Complaint.class)
 				.setParameter("pincode", pincode)
 				.getResultList();

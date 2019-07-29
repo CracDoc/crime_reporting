@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.crime_report.spring.dao.ReporterDaoImpl;
+import com.crime_report.spring.model.AddressPoliceStation;
 import com.crime_report.spring.model.AddressReporter;
 import com.crime_report.spring.model.Complaint;
 import com.crime_report.spring.model.ContactReporter;
+import com.crime_report.spring.model.PoliceStation;
 import com.crime_report.spring.model.Reporter;
 
 @Service
@@ -18,6 +20,10 @@ public class ReporterService implements IReporterService {
 	
 	@Autowired
 	private ReporterDaoImpl reporterdao;
+	
+	private PoliceStation policeStation;
+	
+	private AddressPoliceStation addrPS;
 
 	@Override
 	@Transactional
@@ -47,13 +53,29 @@ public class ReporterService implements IReporterService {
 
 	@Override
 	@Transactional
-	public boolean registerComplaint(Complaint complaint, Integer rp_id, Integer ps_id) {
+	public boolean registerComplaint(Complaint complaint, Reporter reporter) {
+		Integer rp_id = reporter.getReporter_id();
 		String com_type = complaint.getComplaint_type(); 
 		String com_status = complaint.getComplaint_status(); 
 		String com_desc = complaint.getComplaint_desc(); 
 		Date com_date = complaint.getComplaint_date(); 
 		String location = complaint.getLocation(); 
-		Integer pincode = complaint.getPincode(); 
+		Integer pincode = complaint.getPincode();
+		Integer ps_id = null;
+//		AddressPoliceStation addrCounter = policeStation.getPs_address();
+//		Integer p = addrCounter.getPincode();
+//		Integer id = policeStation.getPs_id();
+//		
+//		while( id !=null )
+//		{
+//			if(p==pincode)
+//			{
+//				complaint.setPolicestation(policeStation); 
+//				break;
+//			}
+//			id++;
+//			
+//		}
 		if(reporterdao.registerComplaint(com_type, com_status, com_desc, com_date, location, pincode, rp_id, ps_id))
 			return true;
 		return false;
@@ -61,37 +83,42 @@ public class ReporterService implements IReporterService {
 
 	@Override
 	@Transactional
-	public boolean changeAddress(Integer rp_id, AddressReporter addrReporter) {
+	public Reporter changeAddress(Reporter reporter, AddressReporter addrReporter) {
+		Integer rp_id = reporter.getReporter_id();
 		String flat_no = addrReporter.getFlat_no();
 		String street = addrReporter.getStreet();
 		String landmark = addrReporter.getLandmark();
 		String city = addrReporter.getCity();
 		Integer pincode = addrReporter.getPincode();
 		if(reporterdao.changeAddress(rp_id, flat_no, street, landmark, city, pincode))
-			return true;
-		return false;
+			return reporter;
+		return null;
 	}
 
 	@Override
 	@Transactional
-	public boolean changeContact(Integer rp_id, ContactReporter contactReporter) {
+	public Reporter changeContact( Reporter reporter, ContactReporter contactReporter) {
+		Integer rp_id = reporter.getReporter_id();
 		String primary_no = contactReporter.getPrimary_no();
 		String secondary_no = contactReporter.getSecondary_no();
 		String land_line = contactReporter.getLand_line();
 		if(reporterdao.changeContact(rp_id, primary_no, secondary_no, land_line))
-			return true;
-		return false;
+			return reporter;
+		return null;
 	}
 
 	@Override
 	@Transactional
-	public Complaint complaintStatus(Integer rp_id, Integer complaint_id) {
+	public Complaint complaintStatus(Reporter reporter, Complaint complaint) {
+		Integer complaint_id = complaint.getComplaint_id();
+		Integer rp_id = reporter.getReporter_id();
 		return reporterdao.complaintStatus(rp_id, complaint_id);
 	}
 
 	@Override
 	@Transactional
-	public List<Complaint> getAllReporterComplaint(Integer rp_id) {
+	public List<Complaint> getAllReporterComplaint(Reporter reporter) {
+		Integer rp_id = reporter.getReporter_id();
 		List<Complaint> list = reporterdao.getAllReporterComplaint(rp_id);
 		return list;
 	}

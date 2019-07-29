@@ -41,7 +41,15 @@ import javax.persistence.Table;
 	    		  parameters = {
 	    					@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "complaint_id"),
 	    					@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "criminal_id")
-	    			})
+	    			}),
+@NamedStoredProcedureQuery(
+		name = "assignComplaintToPS",
+		procedureName = "assignComplaintToPS",
+		parameters = {
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "ps_id"),
+				@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "complaint_id")
+		}
+		)
 })
 
 @Table(name = "tbl_complaint" )

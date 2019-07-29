@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.crime_report.spring.model.Admin;
 import com.crime_report.spring.model.Complaint;
+import com.crime_report.spring.model.PoliceStation;
 
 /**
  * @author SCRAT
@@ -14,13 +15,13 @@ import com.crime_report.spring.model.Complaint;
 public interface IPoliceStationDao {
 	
 	//1
-	Admin getAuthenticateAdmin(Integer ps_id, String username, String password);
+	PoliceStation getAuthenticateAdmin(String username, String password);
 	
 	//2
 	boolean addCriminal(String criminal_name, Date date_of_birth, String crime_commited, String cases_pending, Integer wanted_level, String p_file_name, byte[] p_file_data );
 	
 	//3
-	List<Complaint> getAllComplaints(String pincode);
+	List<Complaint> getAllComplaints(Integer pincode);
 	
 	//4
 	Complaint viewComplaint(Integer Complaint_id);

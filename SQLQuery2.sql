@@ -85,6 +85,8 @@ go
 create table tbl_police_station(
 ps_id int identity(1,1),
 police_station_name varchar(50) NOT NULL,
+police_station_username  varchar(20) NOT NULL,
+police_station_password varchar(20) NOT NULL,
 ps_addr_id int not null,
 CONSTRAINT PK_ps PRIMARY KEY (ps_id),
 CONSTRAINT FK_ps_addr FOREIGN KEY(ps_addr_id) REFERENCES tbl_address_police_station(ps_addr_id)
@@ -157,11 +159,9 @@ go
 /* Only  Super-Admin can access following table */
 /* Contains the admin login information */
 create table tbl_admin(
-admin_id int primary key identity(1,1),
 username varchar(20) NOT NULL,
 password varchar(20) NOT NULL,
-ps_id int,
-CONSTRAINT FK_ps FOREIGN KEY (ps_id) REFERENCES tbl_police_station(ps_id)
+CONSTRAINT PK_admin PRIMARY KEY (username)
 );
 
 go
@@ -285,9 +285,8 @@ begin
 insert into tbl_address_police_station(flat_no,street,landmark,city,pincode) values 
 (@flat_no, @street, @landmark, @city, @pincode)
 declare @ps_addr_id int = @@identity
-insert into tbl_police_station(police_station_name,ps_addr_id) values (@police_station_name,@ps_addr_id);
-declare @ps_id int = @@identity
-insert into tbl_admin(username,password,ps_id) values (@username,@password,@ps_id);
+insert into tbl_police_station(police_station_name,police_station_username,police_station_password,ps_addr_id)
+values (@police_station_name,@username,@password,@ps_addr_id);
 end;
 
 
@@ -367,22 +366,19 @@ end;
 /***************************************************/
 
 
-
 /* change username and password for police station */
 /* accessed only by super-admin */
-create procedure changeCredentials (
-@ps_id int,
+create procedure changePassword (
 @username varchar(20),
 @password varchar(20)
 )
 as
 begin
-update tbl_admin set username=@username,password=@password where ps_id=@ps_id
+update tbl_admin set password=@password where username=@username
 end;
 
 
 /************************************************/
-
 
 
 /* change status of complaint */

@@ -18,30 +18,32 @@ public class AdminService implements IAdminService {
 	
 	@Autowired
 	private AdminDaoImpl adminDao;
+	
+	
+	@Override
+	public Admin loginAdmin(String username, String password) {
+		return adminDao.loginAdmin(username, password);		 
+	}
 
 	@Override
-	public boolean addPoliceStation(PoliceStation policeStation, AddressPoliceStation addressPoliceStation,
-			Admin admin) {
+	public boolean addPoliceStation(PoliceStation policeStation, AddressPoliceStation addressPoliceStation) {
 		String police_station_name = policeStation.getPolice_station_name();
 		String flat_no = addressPoliceStation.getFlat_no();
 		String street = addressPoliceStation.getStreet();
 		String landmark = addressPoliceStation.getLandmark();
 		String city = addressPoliceStation.getCity();
 		Integer pincode = addressPoliceStation.getPincode();
-		String username = admin.getPassword();
-		String password = admin.getPassword();
+		String username = policeStation.getPolice_station_username();
+		String password = policeStation.getPolice_station_password();
 		if(adminDao.addPoliceStation(police_station_name,flat_no,street,landmark,city,pincode,username,password))
 			return true;
 		return false;
 	}
 
 	@Override
-	public boolean changeCredentials(Admin admin) {
-		PoliceStation ps_id1 = admin.getPs_id();
-		Integer ps_id = ps_id1.getPs_id();
+	public boolean changeCredentials(Admin admin, String password) {
 		String username = admin.getUsername();
-		String password = admin.getPassword();
-		if(adminDao.changeCredentials(ps_id, username, password))
+		if(adminDao.changeCredentials(username,password))
 			return true;
 		return false;
 	}
@@ -65,5 +67,7 @@ public class AdminService implements IAdminService {
 	public List<PoliceStation> viewAllPoliceStations() {
 		return adminDao.viewAllPoliceStations();
 	}
+
+	
 
 }

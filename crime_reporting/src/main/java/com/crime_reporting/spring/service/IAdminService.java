@@ -11,9 +11,11 @@ import com.crime_report.spring.model.Reporter;
 
 public interface IAdminService {
 	
-	public boolean addPoliceStation(PoliceStation policeStation,AddressPoliceStation addressPoliceStation,Admin admin);
+	Admin loginAdmin(String username, String password);
 	
-	public boolean changeCredentials(Admin admin);
+	public boolean addPoliceStation(PoliceStation policeStation,AddressPoliceStation addressPoliceStation);
+	
+	public boolean changeCredentials(Admin admin, String password);
 	
 	public List<Complaint> viewAllComplaints();
 	

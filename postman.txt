@@ -1,0 +1,31 @@
+In Postman:
+
+pre request script =======
+var reporter = {
+	"repo_name":"ankit",
+	"repo_aadhar_no":"123456789123",
+	"date_of_birth":"16/04/1996"
+	};
+	var addrReporter = {
+	"flat_no":"1502",
+	"street":"nanded city",
+	"landmark":"near nanded city",
+	"city":"pune",
+	"pincode":"411051"
+	};
+	var contactReporter = {
+	"primary_no":"1234567890",
+	"secondary_no":"1234567898",
+	"land_line":"123456789123"
+	};
+pm.environment.set("reporter","addrReporter","contactReporter",JSON.stringify(reporter),JSON.stringify(addrReporter),JSON.stringify(contactReporter));
+
+
+
+
+body ===========
+{
+	"reporter" : "{{reporter}}",
+	"addrReporter" : "{{addrReporter}}",
+	"contactReporter" : "{{contactReporter}}"
+}

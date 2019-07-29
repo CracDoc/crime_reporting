@@ -370,7 +370,7 @@ end;
 /***************************************************/
 
 
-/* change username and password for police station */
+/* change password for police station */
 /* accessed only by super-admin */
 create procedure changePassword (
 @username varchar(20),
@@ -378,7 +378,7 @@ create procedure changePassword (
 )
 as
 begin
-update tbl_admin set password=@password where username=@username
+update tbl_police_station set police_station_password=@password where police_station_username=@username
 end;
 
 
